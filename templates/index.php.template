@@ -1,0 +1,202 @@
+<?php
+
+$clientIp = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+$serverIp = $_SERVER['SERVER_ADDR'] ?? 'Unknown';
+$hostname = $_SERVER['HTTP_HOST'] ?? 'Unknown';
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    ? 'HTTPS'
+    : 'HTTP';
+
+$clientHostname = gethostbyaddr($clientIp);
+
+$requestId = bin2hex(random_bytes(8));
+$timestamp = date('Y-m-d H:i:s T');
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DNS Connectivity Test</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: #f9fafb;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            padding: 10px 0;
+            border-bottom: 1px solid #374151;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #9ca3af;
+        }
+
+        .value {
+            word-break: break-word;
+        }
+
+        .success {
+            color: #34d399;
+            font-weight: bold;
+        }
+
+        footer {
+            color: #6b7280;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>DNS Connectivity Test</h1>
+
+    <div class="subtitle">
+        The endpoint was successfully reached using the requested hostname.
+    </div>
+
+    <div class="card">
+
+        <div class="row">
+            <div class="label">Status</div>
+            <div class="value success">
+                OK
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Request hostname</div>
+            <div class="value">
+                <?= htmlspecialchars($hostname) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Protocol</div>
+            <div class="value">
+                <?= htmlspecialchars($protocol) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Client IP</div>
+            <div class="value">
+                <?= htmlspecialchars($clientIp) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Client hostname</div>
+            <div class="value">
+                <?= htmlspecialchars($clientHostname) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Server IP</div>
+            <div class="value">
+                <?= htmlspecialchars($serverIp) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Server hostname</div>
+            <div class="value">
+                <?= htmlspecialchars(gethostname()) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">HTTP status</div>
+            <div class="value">
+                <?= http_response_code() ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Apache version</div>
+            <div class="value">
+                <?= htmlspecialchars($_SERVER['SERVER_SOFTWARE'] ?? 'Unknown') ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Request time</div>
+            <div class="value">
+                <?= htmlspecialchars($timestamp) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">Request ID</div>
+            <div class="value">
+                <?= htmlspecialchars($requestId) ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label">User Agent</div>
+            <div class="value">
+                <?= htmlspecialchars($_SERVER['HTTP_USER_AGENT'] ?? 'Unknown') ?>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        Internal DNS &amp; Connectivity Test Endpoint
+    </footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+# DNS Connectivity Server
+# Generated automatically by installer
+
+port={{DNS_PORT}}
+
+server={{UPSTREAM_DNS}}
+
+domain-needed
+bogus-priv
+
+listen-address=127.0.0.1,{{SERVER_IPV4}}
+
+expand-hosts
+domain={{DNS_DOMAIN}}
+
+address=/{{DNS_HOSTNAME}}/{{SERVER_IPV4}}
+
+cache-size=1000
+
+interface={{SELECTED_INTERFACE}}
